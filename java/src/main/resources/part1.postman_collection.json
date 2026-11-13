@@ -1,0 +1,1899 @@
+{
+	"info": {
+		"_postman_id": "f4a5aeb5-7289-4237-a0e9-9c62418b6cc4",
+		"name": "Hospital Management API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43134382"
+	},
+	"item": [
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "GET /patients - (endpoint #1)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/patients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404 for invalid URL\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/patients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST /patients - (endpoint #2)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201 for successful creation\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Log newly created patient\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    console.log(\"New Patient Created:\", jsonData);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Test Patient\",\n  \"email\": \"test@hospital.com\",\n  \"phoneNumber\": \"555-111-2222\",\n  \"address\": \"123 Testing Ave\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/patients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 for missing fields\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"missingname@hospital.com\",\n  \"phoneNumber\": \"555-111-0000\",\n  \"address\": \"No Name Road\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/patients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET /patients/{id} - (endpoint #3)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 for valid patient ID\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/patients/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404 for non-existent patient\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/patients/99",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"99"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT /patients/{id} - (endpoint #4)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 for successful update\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John Doe Updated\",\n  \"email\": \"john.new@email.com\",\n  \"phoneNumber\": \"555-999-8888\",\n  \"address\": \"456 Updated St\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/patients/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Update patient by ID - Not Found\", function () {",
+											"    pm.response.to.have.status(404);",
+											"    pm.response.to.have.jsonBody(\"message\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/patients/99",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"99"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE /patients/{id} - (endpoint #5)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 on successful deletion\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/patients/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Delete patient by ID - Not Found\", function () {",
+											"    pm.response.to.have.status(404);",
+											"    pm.response.to.have.jsonBody(\"message\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/patients/13",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"13"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET /patients/{id}/appointments - (endpoint #6)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Returns list of appointments\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an(\"array\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/patients/1/appointments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"1",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404 for non-existent patient\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/patients/999/appointments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"999",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "List all appointments for a specific patient"
+				},
+				{
+					"name": "GET /patients/{id}/medical-records - (endpoint #7)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+											"pm.test(\"Medical record matches expected structure\", () => {",
+											"    const record = pm.response.json();",
+											"    pm.expect(record.recordDate).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);",
+											"    pm.expect(record.diagnosis).to.be.a('string');",
+											"    pm.expect(record.appointment.id).to.eql(pm.variables.get(\"validAppointmentId\"));",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/patients/1/medical-records",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"1",
+										"medical-records"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 204 when patient has no records\", () => {",
+											"    pm.response.to.have.status(204);",
+											"    pm.expect(pm.response.body).to.be.empty;",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/patients/333/medical-records",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patients",
+										"333",
+										"medical-records"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "List all medical records for a specific patient"
+				}
+			]
+		},
+		{
+			"name": "Doctors",
+			"item": [
+				{
+					"name": "GET /doctors - (endpoint #8)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+											"pm.test(\"Response is an array\", () => {",
+											"    pm.expect(pm.response.json()).to.be.an('array');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/doctors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", () => pm.response.to.have.status(404));",
+											"pm.test(\"Has error message\", () => {",
+											"    pm.expect(pm.response.json().message).to.exist;",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/doctorss",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctorss"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "List all doctors"
+				},
+				{
+					"name": "POST /doctors - GET /doctors - (endpoint #9)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201 (Created)\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Dr. Rah Thompson\",\n  \"specialisation\": \"Pediatrics\",\n  \"email\": \"sarah.thompson@hospital.org\",\n  \"phone_number\": \"555-000-0030\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/doctors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400); ",
+											"});",
+											"",
+											"pm.test(\"Response contains error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData.message).to.eql('Bad request');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"specialisation\": \"Pediatrics\",\n  \"email\": \"sarah.thompson@hospital.org\",\n  \"phone_number\": \"555-000-0030\"\n}\n"
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/doctors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Create a new doctor"
+				},
+				{
+					"name": "GET /doctors/{id} -  (endpoint #10)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.sendRequest('https://api.example.com/doctors/123', function (err, response) {",
+											"    pm.test(\"Status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404); ",
+											"});",
+											"",
+											"pm.test(\"Response contains error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData.message).to.eql('Doctor not found'); ",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"12"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Retrieve a specific doctor by ID"
+				},
+				{
+					"name": "PUT /doctors/{id} - (endpoint #11)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											"});",
+											"",
+											"pm.test(\"Response contains updated doctor data\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('id');",
+											"    pm.expect(jsonData.name).to.eql('Dr. John Doe Updated');",
+											"    pm.expect(jsonData.specialisation).to.eql('Neurology');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Dr. Kehinde Updated\",\n  \"specialisation\": \"Cardiology\",\n  \"email\": \"kehinde.updated@hospital.org\",\n  \"phone_number\": \"555-123-9999\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404); ",
+											"});",
+											"",
+											"pm.test(\"Response contains error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData.message).to.eql('Doctor not found'); // Adjust message as needed",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Dr. John Doe Updated\",\n    \"specialisation\": \"Neurology\",\n    \"email\": \"dr.johndoe_updated@hospital.com\",\n    \"phoneNumber\": \"+441234567891\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/18",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"18"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Update a specific doctor by ID"
+				},
+				{
+					"name": "DELETE /doctors/{id} - (endpoint #12)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404); ",
+											"});",
+											"",
+											"pm.test(\"Response contains error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData.message).to.eql('Doctor not found'); ",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/24",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"24"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Delete a specific doctor by ID"
+				},
+				{
+					"name": "GET /doctors/{id}/appointments  -  (endpoint #13)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is an array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an('array'); ",
+											"    pm.expect(jsonData.length).to.be.above(0); ",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/1/appointments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"1",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404); ",
+											"});",
+											"",
+											"pm.test(\"Response contains error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData.message).to.eql('Doctor not found'); ",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/doctors/7/appointments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"doctors",
+										"7",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "List all appointments for a specific doctor"
+				}
+			]
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "GET /appointments - (endpoint #14)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response body is an array\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('array');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 for invalid query parameters\", function () {",
+											"    pm.response.to.have.status(400); ",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointmentsz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointmentsz"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "List all appointments"
+				},
+				{
+					"name": "POST /appointments -  (endpoint #15)",
+					"item": [
+						{
+							"name": "success",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"appointmentDate\": \"2025-05-01T10:00:00.000Z\",\n  \"status\": \"Scheduled\",\n  \"patient\": {\n    \"id\": 1\n  },\n  \"doctor\": {\n    \"id\": 1\n  },\n  \"notes\": \"Initial consultation for health checkup\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/appointments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code should be 400 - Bad Request for missing appointmentDate\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response should contain an error message about missing appointmentDate\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.include(\"appointmentDate is required\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"Scheduled\",\n  \"notes\": \"Patient requested interpreter\",\n  \"patient\": {\n    \"id\": 1\n  },\n  \"doctor\": {\n    \"id\": 1\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/appointments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Create a new appointment"
+				},
+				{
+					"name": "GET /appointments/{id} - (endpoint #16)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 for valid appointment ID\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404 for non-existent appointment ID\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Error message indicates appointment not found\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"Appointment not found\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"12"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Retrieve a specific appointment by ID"
+				},
+				{
+					"name": "PUT /appointments/{id} - (endpoint #17)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 for updating appointment\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"appointmentDate\": \"2025-07-01T10:00:00.000+00:00\",\n    \"status\": \"Completed\",\n    \"notes\": \"Patient completed the consultation, follow-up scheduled.\",\n    \"patient\": {\n        \"id\": 1\n    },\n    \"doctor\": {\n        \"id\": 1\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 for missing required fields\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Error message indicates required fields are missing\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.include(\"Missing required fields\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"appointmentDate\": \"2025-07-01T10:00:00.000+00:00\",\n  \"status\": \"Completed\"\n  \n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "**Update a specific appointment by ID**"
+				},
+				{
+					"name": "DELETE /appointments/{id} - (endpoint #18)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204 for successful deletion\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											"",
+											"pm.test(\"Response indicates successful deletion\", function () {",
+											"    pm.expect(pm.response.text()).to.eql(\"\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404 for non-existent appointment ID\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Error message indicates appointment not found\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"Appointment not found\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "**Delete a specific appointment by ID**"
+				},
+				{
+					"name": "GET /appointments/{id}/medical-record - (endpoint #19)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 for valid appointment ID\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response contains the medical record data\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('id');",
+											"    pm.expect(jsonData.appointmentId).to.eql(1);  // Example appointment ID",
+											"    pm.expect(jsonData.diagnosis).to.eql(\"Type 2 Diabetes\"); // Example diagnosis",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/1/medical-record",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"1",
+										"medical-record"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404 for appointment with no medical record\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Error message indicates no medical record\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"No medical record exists for this appointment\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/appointments/4/medical-record",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"appointments",
+										"4",
+										"medical-record"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "**Retrieve the medical record for a specific appointment**"
+				}
+			]
+		},
+		{
+			"name": "Medical-records",
+			"item": [
+				{
+					"name": "POST /medical-records - (endpoint #20)",
+					"item": [
+						{
+							"name": "Success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201 for successful medical record creation\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Response has the created record fields\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property(\"id\");",
+											"    pm.expect(jsonData).to.have.property(\"recordDate\");",
+											"    pm.expect(jsonData).to.have.property(\"diagnosis\");",
+											"    pm.expect(jsonData).to.have.property(\"treatment\");",
+											"    pm.expect(jsonData).to.have.property(\"notes\");",
+											"    pm.expect(jsonData).to.have.property(\"appointment\");",
+											"    pm.expect(jsonData.appointment).to.have.property(\"id\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"recordDate\": \"2025-07-04T16:45:00Z\",\n  \"diagnosis\": \"Severe allergic reaction\",\n  \"treatment\": \"Epinephrine, antihistamines, steroids\",\n  \"notes\": \"Patient allergic to peanuts - added to records\",\n  \"appointment\": {\n    \"id\": 4\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/medical-records",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"medical-records"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 for missing fields\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Error message indicates missing fields\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.include(\"Missing required fields\");",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"diagnosis\": \"Flu\"\n  \n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/medical-records",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"medical-records"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Create a new medical record"
+				}
+			]
+		}
+	]
+}

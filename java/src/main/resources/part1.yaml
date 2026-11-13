@@ -1,0 +1,712 @@
+openapi: 3.0.0
+info:
+  title: Task01 Hospital Management system
+  description: group-30
+  version: 1.0.0
+servers:
+  - url: https://virtserver.swaggerhub.com/universityofleiceste-01c/Task1/1.0.0
+    description: SwaggerHub API Auto Mocking
+  - url: http://localhost:8080/
+    description: Localhost server
+tags:
+  - name: patients
+    description: Patient management
+  - name: doctors
+    description: Everything about doctors
+  - name: appointments
+    description: Appointment management
+  - name: medical-records
+    description: Everything about medical records
+paths:
+  /patients:
+    get:
+      tags:
+        - patients
+      summary: Retrieve all registered patients
+      description: returns all registered patients
+      operationId: getPatients
+      parameters:
+        - name: skip
+          in: query
+          description: list all registered patients
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          description: max number of records to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: List of Patients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+        "404":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    post:
+      tags:
+        - patients
+      summary: Creating new patients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+        required: true
+      responses:
+        "201":
+          description: Patient successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        "400":
+          description: Patient missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        "404":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /patients/{id}:
+    get:
+      tags:
+        - patients
+      summary: Retrieve a specific patient by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Retrieved patient
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        "404":
+          description: Patient not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    put:
+      tags:
+        - patients
+      summary: Update a specific patient detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+        required: true
+      responses:
+        "200":
+          description: Patient updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        "404":
+          description: Patient not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    delete:
+      tags:
+        - patients
+      summary: Delete a specific patient by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Patient deleted successfully
+        "404":
+          description: Patient not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /patients/{id}/appointments:
+    get:
+      tags:
+        - patients
+      summary: List all appointments for a specific patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        "404":
+          description: Patient not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        "204":
+          description: No appointments for this patient
+  /patients/{id}/medical-records:
+    get:
+      tags:
+        - patients
+      summary: List all medical records for a specific patient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MedicalRecord'
+        "404":
+          description: Patient  not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        "204":
+          description: No medical records for this patient
+  /doctors:
+    get:
+      tags:
+        - doctors
+      summary: List all doctors
+      responses:
+        "200":
+          description: OK response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Doctor'
+        "204":
+          description: No doctors to show
+        "404":
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    post:
+      tags:
+        - doctors
+      summary: Create a new doctor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+        required: true
+      responses:
+        "201":
+          description: Doctor created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /doctors/{id}:
+    get:
+      tags:
+        - doctors
+      summary: Retrieve a specific doctor by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        "404":
+          description: Doctor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    put:
+      tags:
+        - doctors
+      summary: Update a specific doctor by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+        required: true
+      responses:
+        "200":
+          description: Doctor updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        "404":
+          description: Doctor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    delete:
+      tags:
+        - doctors
+      summary: Delete a specific doctor by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Doctor deleted successfully
+        "404":
+          description: Doctor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /doctors/{id}/appointments:
+    get:
+      tags:
+        - doctors
+      summary: List all appointments for a specific doctor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        "404":
+          description: Doctor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        "204":
+          description: No appointments for this doctor
+  /appointments:
+    get:
+      tags:
+        - appointments
+      summary: List appointments
+      description: "Returns all appointments with optional filters. Each appointment links one patient to one doctor. A patient can have multiple appointments, and a doctor can have multiple appointments."
+      parameters:
+        - name: patientId
+          in: query
+          description: Filter by patient ID
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: doctorId
+          in: query
+          description: Filter by doctor ID
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          description: Filter by appointment status
+          required: false
+          schema:
+            type: string
+            enum:
+              - SCHEDULED
+              - COMPLETED
+              - CANCELLED
+      responses:
+        "200":
+          description: List of appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        "400":
+          description: Invalid filter parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    post:
+      tags:
+        - appointments
+      summary: Create appointment
+      description: "Books a new appointment between a patient and doctor. Required fields include patientId, doctorId, appointmentDate, and status."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+        required: true
+      responses:
+        "201":
+          description: Appointment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        "400":
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        "404":
+          description: Patient or doctor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /appointments/{id}:
+    get:
+      tags:
+        - appointments
+      summary: Get appointment
+      description: Returns a single appointment along with the linked patient and doctor.
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the appointment
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Appointment found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        "404":
+          description: Appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    put:
+      tags:
+        - appointments
+      summary: Update appointment
+      description: Updates the details of an existing appointment.
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the appointment
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+        required: true
+      responses:
+        "200":
+          description: Appointment updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        "400":
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        "404":
+          description: Appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    delete:
+      tags:
+        - appointments
+      summary: Delete appointment
+      description: Deletes an appointment and its associated medical record (cascading delete).
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the appointment
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: Appointment and medical record deleted
+        "404":
+          description: Appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /appointments/{id}/medical-record:
+    get:
+      tags:
+        - appointments
+      summary: Get appointment's medical record
+      description: Returns the medical record linked to this appointment (1:1 relationship).
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the appointment
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Medical record found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalRecord'
+        "404":
+          description: No medical record exists for this appointment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /medical-records:
+    post:
+      tags:
+        - medical-records
+      summary: Create medical record
+      description: Creates a medical record for an existing appointment. Each appointment can have only one medical record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalRecord'
+        required: true
+      responses:
+        "201":
+          description: Medical record created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalRecord'
+        "400":
+          description: Invalid data or appointment already has a record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        "404":
+          description: Appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+components:
+  schemas:
+    Patient:
+      required:
+        - address
+        - email
+        - name
+        - phoneNumber
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique patient identifier
+          format: int64
+          readOnly: true
+        name:
+          type: string
+          description: Full name of the patient
+          example: John Doe
+        email:
+          type: string
+          description: Patient's email address
+          format: email
+          example: vsmith4@gmail.com
+        phoneNumber:
+          type: string
+          description: Patient's Phone Number
+          example: +44111111111
+        address:
+          type: string
+          description: Patient's home address
+          example: "1234 example street, London, UK"
+    Doctor:
+      required:
+        - email
+        - name
+        - specialisation
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique doctor identifier
+          format: int64
+          readOnly: true
+        name:
+          type: string
+          description: Full name of the doctor
+          example: Dr. Kehinde
+        specialisation:
+          type: string
+          description: Medical specialisation
+          example: Cardiology
+        email:
+          type: string
+          format: email
+          example: dr.Kehinde@hospital.com
+        phoneNumber:
+          type: string
+          example: +441234567890
+    Appointment:
+      required:
+        - appointmentDate
+        - doctorId
+        - patientId
+        - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        patientId:
+          type: integer
+          format: int64
+        doctorId:
+          type: integer
+          format: int64
+        appointmentDate:
+          type: string
+          format: date-time
+          example: 2025-06-20T14:30:00Z
+        status:
+          type: string
+          enum:
+            - SCHEDULED
+            - COMPLETED
+            - CANCELLED
+        notes:
+          type: string
+          example: Patient requested interpreter
+    MedicalRecord:
+      required:
+        - appointmentId
+        - diagnosis
+        - recordDate
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        appointmentId:
+          type: integer
+          format: int64
+        recordDate:
+          type: string
+          format: date-time
+          example: 2025-06-20T15:00:00Z
+        diagnosis:
+          type: string
+          example: Type 2 Diabetes
+        treatment:
+          type: string
+          example: Metformin 500mg twice daily
+        notes:
+          type: string
+          example: Patient advised to monitor blood sugar levels
+    ErrorInfo:
+      type: object
+      properties:
+        message:
+          type: string
+          default: Error message
