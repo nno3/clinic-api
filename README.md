@@ -1,6 +1,6 @@
 # Clinic
 
-Group 30. A clinic API for doctors, patients, appointments, and medical records. An appointment can have one medical record.
+A trio project with Ajan Mudey and Aisha Tasneem Muhammad. The work was shared equally. The API keeps doctors, patients, appointments, and medical records. An appointment can have one medical record.
 
 This page runs the same checks in the browser.
 
